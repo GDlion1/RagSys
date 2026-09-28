@@ -25,7 +25,7 @@ if not GEMINI_API_KEY:
 # ----------------------------------
 
 embeddings = GoogleGenerativeAIEmbeddings(
-    model="gemini-embedding-001",
+    model="models/text-embedding-004",
     google_api_key=GEMINI_API_KEY
 )
 
@@ -35,7 +35,7 @@ embeddings = GoogleGenerativeAIEmbeddings(
 # ----------------------------------
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
+    model="gemini-1.5-flash",
     temperature=0,
     google_api_key=GEMINI_API_KEY
 )

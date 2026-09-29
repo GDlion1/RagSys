@@ -25,7 +25,7 @@ if not GEMINI_API_KEY:
 # ----------------------------------
 
 embeddings = GoogleGenerativeAIEmbeddings(
-    model="models/text-embedding-004",
+    model="models/gemini-embedding-001",
     google_api_key=GEMINI_API_KEY
 )
 
@@ -35,7 +35,7 @@ embeddings = GoogleGenerativeAIEmbeddings(
 # ----------------------------------
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model="models/gemini-3.8-flash",
     temperature=0,
     google_api_key=GEMINI_API_KEY
 )
@@ -160,9 +160,20 @@ Answer:
 
     response = llm.invoke(prompt)
 
+    answer_text = response.content
+    if isinstance(answer_text, list):
+        text_parts = []
+        for part in answer_text:
+            if isinstance(part, str):
+                text_parts.append(part)
+            elif isinstance(part, dict) and "text" in part:
+                text_parts.append(part["text"])
+        answer_text = "\n".join(text_parts) if text_parts else str(response.content)
+    elif not isinstance(answer_text, str):
+        answer_text = str(answer_text)
 
     return {
-        "answer": response.content,
+        "answer": answer_text,
         "sources": [
             doc.page_content
             for doc in docs

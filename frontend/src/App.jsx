@@ -264,7 +264,11 @@ function App() {
                   <div className="message-content">
 
                     <div className="message-text">
-                      {message.content}
+                      {typeof message.content === "string" 
+                        ? message.content 
+                        : typeof message.content === "object"
+                        ? JSON.stringify(message.content)
+                        : String(message.content)}
                     </div>
 
                     {message.sources?.length > 0 && (
